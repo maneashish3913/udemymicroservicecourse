@@ -1,0 +1,21 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /asach
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdbx # In-memory database (for persistent, use a file path instead)
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  sql:
+    init:
+      schema-locations: classpath:schemax.sql #this we need when using custome file names with h2
+  h2:
+    console:
+      enabled: true # Enables H2 console at runtime
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update # Automatically create/update database schema (use `none` for production)
+    show-sql: true
