@@ -1,10 +1,16 @@
 package com.eazybytes.loans.controller;
 
 
+import com.eazybytes.loans.constants.LoansConstants;
+import com.eazybytes.loans.dto.LoansDto;
+import com.eazybytes.loans.dto.ResponseDto;
+import com.eazybytes.loans.service.ILoansService;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import javax.swing.text.AbstractDocument;
 import java.net.http.HttpRequest;
@@ -14,9 +20,23 @@ import java.net.http.HttpRequest;
 @RequestMapping(path = "/api", produces = {MediaType.APPLICATION_JSON_VALUE})
 
 public class LoansController {
+    @Autowired
+    ILoansService iLoansService;
 
-    @GetMapping("/getloandetails")
-    public String getloandetails(HttpRequest httpRequest){
-        return "ashish is coding to became most successful human being in the generation";
+
+    @PostMapping("/create")
+    public ResponseEntity<ResponseDto> getloandetails(@RequestParam String mobileNumber){
+        iLoansService.createLoan(mobileNumber);
+        ResponseDto responseDto =new ResponseDto();
+        responseDto.setStatusCode(LoansConstants.STATUS_201);
+        responseDto.setStatusMessage("Loan created successfully.");
+        return  new ResponseEntity<ResponseDto>(responseDto,HttpStatus.CREATED);
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<ResponseDto>updateLoanDetails(@RequestBody LoansDto loansDto){
+        boolean isUpdated = iLoansService.updateLoan(loansDto);
+        ResponseDto responseDto =new ResponseDto();
+       
     }
 }
