@@ -47,12 +47,16 @@ public class LoansServiceImpl implements ILoansService {
 
     @Override
     public boolean updateLoan(LoansDto loansDto) {
-//       loansRepository.findByLoanNumber(loansDto.getLoanNumber()).orElseThrow(()->new ResourceNotFoundException("loan","loanNumber",loansDto.getLoanNumber()));
-        Optional<Loans> loan = loansRepository.findByLoanNumber(loansDto.getLoanNumber());
-        if (loan.isEmpty()) {
-            throw new ResourceNotFoundException("loan", "loanNumber", loansDto.getLoanNumber());
-        }
-        loansRepository.save(LoansMapper.mapToLoans(loansDto, new Loans()));
+//        Optional<Loans> loan = loansRepository.findByLoanNumber(loansDto.getLoanNumber());
+//        if (loan.isEmpty()) {
+//            throw new ResourceNotFoundException("loan", "loanNumber", loansDto.getLoanNumber());
+//        }
+//        loansRepository.save(LoansMapper.mapToLoans(loansDto, new Loans()));
+
+        Loans loan = loansRepository.findByLoanNumber(loansDto.getLoanNumber()).orElseThrow(() -> new ResourceNotFoundException("loan", "loanNumber", loansDto.getLoanNumber()));
+        Loans updatedLoan = LoansMapper.mapToLoans(loansDto,loan);
+        loansRepository.save(updatedLoan);
+
         return true;
     }
 
